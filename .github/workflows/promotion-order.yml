@@ -1,0 +1,17 @@
+name: promotion-order
+on:
+  pull_request:
+    branches: [staging, main]
+jobs:
+  check-source-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce develop -> staging -> main
+        run: |
+          if [ "$GITHUB_BASE_REF" = "staging" ] && [ "$GITHUB_HEAD_REF" != "develop" ]; then
+            echo "PRs into staging must come from develop"; exit 1
+          fi
+          if [ "$GITHUB_BASE_REF" = "main" ] && [ "$GITHUB_HEAD_REF" != "staging" ]; then
+            echo "PRs into main must come from staging"; exit 1
+          fi
+
