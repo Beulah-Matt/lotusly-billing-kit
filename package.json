@@ -1,0 +1,33 @@
+{
+  "name": "lotusly-billing-kit",
+  "private": true,
+  "license": "MIT",
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "eslint . && prettier --check . && pnpm lint:deps",
+    "lint:deps": "depcruise packages --config .dependency-cruiser.cjs",
+    "format": "prettier --write .",
+    "changeset": "changeset",
+    "version-packages": "changeset version"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@eslint/js": "^10.0.1",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "dependency-cruiser": "^18.7.2",
+    "eslint": "^10.14.0",
+    "prettier": "^3.10.1",
+    "tsup": "^9.0.0",
+    "turbo": "^2.11.11",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  },
+  "type": "module"
+}

@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Opens or updates the "Version packages" pull request from pending changesets.
+      # Publishing to npm is not wired yet: it waits for the npm scope to be confirmed.
+      - uses: changesets/action@v2
+        with:
+          version-script: pnpm version-packages
+          pr-title: "chore: version packages"
+          commit-message: "chore: version packages"
+          github-token: ${{ secrets.GITHUB_TOKEN }}

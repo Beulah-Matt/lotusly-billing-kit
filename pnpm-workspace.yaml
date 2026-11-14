@@ -1,0 +1,15 @@
+packages:
+  - "packages/*"
+
+engineStrict: true
+
+allowBuilds:
+  esbuild: true
+
+# TypeScript 7 has no compiler API yet, so `typescript` is aliased to @typescript/typescript6 for tools
+# and `@typescript/native` provides tsc 7. dependency-cruiser does not declare typescript, so without
+# this peer it loads the hoisted typescript@7, parses nothing and reports no violations.
+packageExtensions:
+  dependency-cruiser:
+    peerDependencies:
+      typescript: ">=2.0.0 <7.0.0"
