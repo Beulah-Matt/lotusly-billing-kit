@@ -2,7 +2,7 @@
   "name": "lotusly-billing-kit",
   "private": true,
   "license": "MIT",
-  "packageManager": "pnpm@10.26.0",
+  "packageManager": "pnpm@12.18.0",
   "engines": {
     "node": ">=22.18"
   },
@@ -19,12 +19,13 @@
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
     "@eslint/js": "^10.0.1",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "dependency-cruiser": "^18.7.2",
-    "eslint": "^10.15.0",
+    "eslint": "^10.14.0",
     "prettier": "^3.10.1",
     "tsup": "^9.0.0",
     "turbo": "^2.11.11",
-    "typescript": "^6.0.3",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript-eslint": "^8.72.2",
     "vitest": "^5.1.0"
   },

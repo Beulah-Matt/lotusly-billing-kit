@@ -119,13 +119,13 @@ Key decisions, each recorded in [`docs/adr`](docs/adr):
 
 | Package | What it is | Runs on |
 | --- | --- | --- |
-| `@Lotusly/billing-core` | Domain, use cases, port definitions, `createBilling()` | Server |
-| `@Lotusly/billing-server` | Request handlers for the customer API, admin API, webhooks and cron tick. Next.js helper at `/next` | Server |
-| `@Lotusly/billing-paystack` | Paystack adapter | Server |
-| `@Lotusly/billing-postgres` | PostgreSQL store, SQL migrations, migration CLI | Server |
-| `@Lotusly/billing-firestore` | Firestore store, indexes and rules *(planned)* | Server |
-| `@Lotusly/billing-react` | Headless hooks and fetch client. Styled components at `/ui` | Browser |
-| `@Lotusly/billing-testing` | In-memory store, mock provider, fake clock, contract suites | Tests |
+| `@lotusly/billing-core` | Domain, use cases, port definitions, `createBilling()` | Server |
+| `@lotusly/billing-server` | Request handlers for the customer API, admin API, webhooks and cron tick. Next.js helper at `/next` | Server |
+| `@lotusly/billing-paystack` | Paystack adapter | Server |
+| `@lotusly/billing-postgres` | PostgreSQL store, SQL migrations, migration CLI | Server |
+| `@lotusly/billing-firestore` | Firestore store, indexes and rules *(planned)* | Server |
+| `@lotusly/billing-react` | Headless hooks and fetch client. Styled components at `/ui` | Browser |
+| `@lotusly/billing-testing` | In-memory store, mock provider, fake clock, contract suites | Tests |
 
 > Package names are provisional until the npm scope is confirmed.
 
@@ -136,16 +136,16 @@ This example uses Next.js (App Router), PostgreSQL and Paystack. The handlers ar
 ### 1. Install
 
 ```bash
-pnpm add @Lotusly/billing-core @Lotusly/billing-server @Lotusly/billing-paystack \
-         @Lotusly/billing-postgres @Lotusly/billing-react
+pnpm add @lotusly/billing-core @lotusly/billing-server @lotusly/billing-paystack \
+         @lotusly/billing-postgres @lotusly/billing-react
 ```
 
-Requires Node.js 20 or later.
+Requires Node.js 22.18 or later.
 
 ### 2. Run the migrations
 
 ```bash
-npx Lotusly-billing migrate --database-url "$DATABASE_URL"
+npx lotusly-billing migrate --database-url "$DATABASE_URL"
 ```
 
 This creates tables in a dedicated `billing` schema. You can also copy the SQL files from the package into your own migration tool.
@@ -156,9 +156,9 @@ This file is the only place that names a provider or a database.
 
 ```ts
 // lib/billing.ts
-import { createBilling, defineCatalog, fixedRateTax } from "@Lotusly/billing-core";
-import { paystack } from "@Lotusly/billing-paystack";
-import { postgresStore, fromPg } from "@Lotusly/billing-postgres";
+import { createBilling, defineCatalog, fixedRateTax } from "@lotusly/billing-core";
+import { paystack } from "@lotusly/billing-paystack";
+import { postgresStore, fromPg } from "@lotusly/billing-postgres";
 import { pool } from "./db";
 
 const catalog = defineCatalog({
@@ -207,7 +207,7 @@ Amounts are always integers in the currency's minor unit.
 
 ```ts
 // app/api/billing/[...path]/route.ts
-import { toNextHandlers } from "@Lotusly/billing-server/next";
+import { toNextHandlers } from "@lotusly/billing-server/next";
 import { billing } from "@/lib/billing";
 import { auth } from "@/auth";
 
@@ -237,9 +237,9 @@ export const { GET, POST } = toNextHandlers(billing, {
 
 ```tsx
 "use client";
-import { BillingProvider, createFetchClient } from "@Lotusly/billing-react";
-import { PricingTable, SubscriptionCard, PastDueBanner } from "@Lotusly/billing-react/ui";
-import "@Lotusly/billing-react/ui/styles.css";
+import { BillingProvider, createFetchClient } from "@lotusly/billing-react";
+import { PricingTable, SubscriptionCard, PastDueBanner } from "@lotusly/billing-react/ui";
+import "@lotusly/billing-react/ui/styles.css";
 
 const client = createFetchClient({ baseUrl: "/api/billing/v1" });
 
@@ -319,7 +319,7 @@ Pick the level you need:
 
 | Level | Use | You own |
 | --- | --- | --- |
-| Supplied UI | `@Lotusly/billing-react/ui` | Colours, labels, placement |
+| Supplied UI | `@lotusly/billing-react/ui` | Colours, labels, placement |
 | Customized UI | The same components with slots, or the headless hooks | Markup and styling |
 | Your own frontend | The JSON API | Everything on the client |
 
@@ -374,7 +374,7 @@ Every use case is also available as a function on the `billing` object, so serve
 
 ### Add a payment provider
 
-Implement `PaymentProvider` from `@Lotusly/billing-core`:
+Implement `PaymentProvider` from `@lotusly/billing-core`:
 
 ```ts
 export interface PaymentProvider {
@@ -396,7 +396,7 @@ export interface PaymentProvider {
 Then run the contract suite against it:
 
 ```ts
-import { providerContract } from "@Lotusly/billing-testing";
+import { providerContract } from "@lotusly/billing-testing";
 providerContract(myProvider, { fixtures });
 ```
 
@@ -450,7 +450,7 @@ The full threat table, with a test linked from each row, is in [`docs/security.m
 | Fault injection | Dropped, duplicated and reordered webhooks, timeouts and crashes end in the same state as a clean run |
 | UI tests | States, keyboard use, theming, accessibility |
 
-`@Lotusly/billing-testing` gives your own app an in-memory store, a mock provider and a fake clock, so you can test billing flows without a network or a database.
+`@lotusly/billing-testing` gives your own app an in-memory store, a mock provider and a fake clock, so you can test billing flows without a network or a database.
 
 ## Repository layout
 

@@ -14,7 +14,7 @@ Thanks for your interest. This project handles other people's money, so the bar 
 
 ## Setup
 
-Requirements: Node.js 22.18 or later, pnpm 10 or later, Docker (for the Postgres tests).
+Requirements: Node.js 22.18 or later, pnpm 12 or later, Docker (for the Postgres tests).
 
 ```bash
 git clone <repo-url>
